@@ -1,0 +1,28 @@
+const app = require("./app");
+const winston = require("winston");
+const dotenv = require("dotenv");
+const connectDatabase = require("./config/database");
+
+//Handling Uncaught Exceptions                                                                     ntw
+process.on("uncaughtException", (err) => {
+  winston.error(`Uncaught Exception: ${err.message}`, {
+    timestamp: new Date().toISOString(),
+    stack: err.stack,
+  });
+  winston.info("Shutting down the server due to Uncaught Exception");
+  server.close(() => {
+    setTimeout(() => {
+      process.exit(1);
+    }, 5000);
+  });
+});
+
+//config
+dotenv.config({ path: "./config/config.env" });
+
+// Cnnecting to databae
+connectDatabase();
+
+const server = app.listen(process.env.PORT, () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT}`);
+});

@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+    scroll-behavior: smooth;
+}
+
+/* //chrome safari edge opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
