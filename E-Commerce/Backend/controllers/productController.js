@@ -18,7 +18,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
 
 // GET ALL PRODUCTS
 const getAllProducts = catchAsyncErrors(async (req, res) => {
-  const resultPerPage = 10;
+  const resultPerPage = 8;
   const productsCount = await Product.countDocuments();
 
   const apiFeature = new ApiFeatures(Product.find(), req.query)
@@ -31,6 +31,7 @@ const getAllProducts = catchAsyncErrors(async (req, res) => {
     success: true,
     products,
     productsCount,
+    resultPerPage,
   });
   console.log("products", products);
 });
@@ -70,7 +71,7 @@ const updateProduct = catchAsyncErrors(async (req, res) => {
   });
 });
 
-// DELETE PRODUCT
+// DELETE PRODUCT  --Admin
 const deleteProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
@@ -190,7 +191,41 @@ const deleteProductReviews = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//=====================================================================================================================
+
+//Get Searched Products
+const getSearchedProducts = catchAsyncErrors(async (req, res, next) => {
+  const q = req.query.q;
+  console.log("req.query.q:", q); // Log to verify the received query parameter
+
+  let searchQuery = {};
+
+  if (typeof q === "string" && q.trim() !== "") {
+    // capital S WRONG  String should be "string"
+
+    searchQuery = {
+      $or: [
+        { name: { $regex: q, $options: "i" } },
+        { category: { $regex: q, $options: "i" } },
+      ],
+    };
+  }
+
+  try {
+    console.log("Search query:", searchQuery);
+    const results = await Product.find(searchQuery).exec();
+    console.log("Search results:", results);
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error Searching Data:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error Searching Data",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = {
   getAllProducts,
   getProductDetails,
@@ -200,4 +235,5 @@ module.exports = {
   createProductReview,
   getProductReviews,
   deleteProductReviews,
+  getSearchedProducts,
 };

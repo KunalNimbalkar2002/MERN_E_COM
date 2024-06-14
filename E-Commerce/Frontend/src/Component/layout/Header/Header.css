@@ -1,0 +1,20 @@
+.logo {
+    width: 10vmax; /* Adjust the size as needed */
+    transition: transform 0.3s;
+    height: 4vmax;
+    margin-left: 0;
+  }
+  
+  .logo:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+
+  .main-div-header{
+    margin-left: 0;
+    height: 5vmax;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+  }

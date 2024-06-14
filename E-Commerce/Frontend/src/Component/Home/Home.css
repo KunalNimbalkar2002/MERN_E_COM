@@ -1,12 +1,14 @@
 .banner {
     background-image: linear-gradient(to right, #9290ac, #aea9fa);
-    height: 96.8vh;
+    height: 74.8vh;
     display: flex;
     flex-direction: column;
     text-align: center;
     align-items: center;
     justify-content: center;
     color: white;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .banner > h1 {
@@ -43,7 +45,8 @@
     position: absolute;
     top: 0%;
     left: 0;
-    clip-path: polygon(100% 65%, 0% 100%, 100% 100%);
+    clip-path: polygon(100% 66%, 0% 100%, 100% 100%);
+
     max-width: 100%;
 }
 

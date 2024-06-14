@@ -9,6 +9,7 @@ const {
   createProductReview,
   getProductReviews,
   deleteProductReviews,
+  getSearchedProducts,
 } = require("../controllers/productController");
 
 const router = express.Router();
@@ -27,6 +28,9 @@ router
 
 //GET A PRODUCT
 router.route("/product/:id").get(getProductDetails);
+
+//SEARCH PRODUCT
+router.route("/products/search").get(getSearchedProducts);
 
 //CREATE REVIEW UPDATE REVIEW
 router.route("/review").put(isAuthenticatedUser, createProductReview);

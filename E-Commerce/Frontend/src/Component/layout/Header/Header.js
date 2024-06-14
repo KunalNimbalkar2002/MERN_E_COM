@@ -1,42 +1,65 @@
 import React from "react";
-import { ReactNavbar } from "overlay-navbar";
+import "./Header.css";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { Search, Cart, Phone } from "react-bootstrap-icons";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Logo from "../../../Assets/Logo.png";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div>
-      <ReactNavbar
-        burgerColorHover="#eb4034"
-        // logo={logo}
-        logoWidth="20vmax"
-        navColor1="White"
-        logoHoverSize="10px"
-        logoHoverColor="#eb4034"
-        link1Text="Home"
-        link2Text="Products"
-        link3Text="Contact"
-        link4Text="About"
-        link1Url="/"
-        link2Url="/products"
-        link3Url="/contact"
-        link4Url="/about"
-        link1Size="1.3vmax"
-        link1Color="rgba(35,35,35,0.8)"
-        nav1justifyContent="flex-end"
-        nav2justifyContent="flex-end"
-        nav3justifyContent="flex-start"
-        nav4justifyContent="flex-start"
-        link1ColorHover="#eb4034"
-        link1Margin="1vmax"
-        profileIconColor="rgba(35,35,35,0.8)"
-        searchIconColor="rgba(35,35,35,0.8)"
-        cartIconColor="rgba(35,35,35,0.8)"
-        profileIconColorHover="#eb4034"
-        searchIconColorHover="#eb4034"
-        cartIconColorHover="#eb4034"
-        profileIconUrl="/login"
-        cartIconMargin="1vmax"
-      />
-    </div>
+    <Navbar bg="light" expand="lg" className="main-div-header">
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          <img
+            src={Logo}
+            width="100"
+            className="d-inline-block align-top logo"
+            alt="Logo"
+          />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/products">
+              Products
+            </Nav.Link>
+            <Nav.Link as={Link} to="/contact">
+              Contact
+            </Nav.Link>
+            <Nav.Link as={Link} to="/about">
+              About
+            </Nav.Link>
+          </Nav>
+          <Nav className="ms-auto">
+            <Nav.Link
+              as={Link}
+              to="/search"
+              className="d-flex align-items-center"
+            >
+              <Search color="rgba(35,35,35,0.8)" />
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/cart"
+              className="d-flex align-items-center"
+            >
+              <Cart color="rgba(35,35,35,0.8)" />
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/contact"
+              className="d-flex align-items-center"
+            >
+              <Phone color="rgba(35,35,35,0.8)" />
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

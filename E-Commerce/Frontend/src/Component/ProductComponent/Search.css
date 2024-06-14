@@ -1,0 +1,22 @@
+.search-products-div{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2vmax auto;
+   
+    justify-content: center;
+}
+
+.searching-inputfield{
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.274);
+    background-color: white;
+    border: none;
+    color: rgba(0, 0, 0, 0.637);
+    padding: 1vmax 2vmax;
+    width: 50%;
+    outline: none;
+    border-radius: 0%;
+    font: 300 1.1vmax cursive;
+    box-sizing: border-box;
+    height: 8%;
+    
+}
