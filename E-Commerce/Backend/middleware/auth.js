@@ -4,17 +4,21 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
 const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-  const { token } = req.cookies;
-  console.log("check cokkie token::::::::::", token);
+  const authHeader = req.headers["authorization"];
+  console.log("----authHeader-----", authHeader);
+  const token = authHeader && authHeader.split(" ")[1];
+
   if (!token) {
     next(new Errorhandler("Please Login To Access This Resource", 401));
   }
 
-  const decodedData = jwt.verify(token, process.env.JWT_SECRETKEY);
-
-  req.user = await User.findById(decodedData.id);
-
-  next();
+  try {
+    const decodedData = jwt.verify(token, process.env.JWT_SECRETKEY);
+    req.user = await User.findById(decodedData.id);
+    next();
+  } catch (error) {
+    next(new Errorhandler("Invalid token", 401));
+  }
 });
 
 const authorizeRoles = (...roles) => {

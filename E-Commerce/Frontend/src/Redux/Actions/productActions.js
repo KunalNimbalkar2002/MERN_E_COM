@@ -2,7 +2,7 @@ import { ActionTypes } from "../Constants/productConstants";
 import axios from "axios";
 
 export const getProduct =
-  (currentPage = 1, price = [0, 250000], category) =>
+  (currentPage = 1, price = [0, 250000], category, ratings = 0) =>
   async (dispatch) => {
     console.log("dispatch :::::::::::::::::: ", dispatch);
     try {
@@ -10,10 +10,10 @@ export const getProduct =
         type: ActionTypes.ALL_PRODUCT_REQUEST,
       });
 
-      let url = `http://localhost:4000/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
+      let url = `http://localhost:4000/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
 
       if (category) {
-        url = `http://localhost:4000/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
+        url = `http://localhost:4000/api/v1/products?page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
       }
 
       const response = await axios.get(url);

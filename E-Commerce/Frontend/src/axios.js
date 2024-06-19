@@ -1,13 +1,14 @@
 import axios from "axios";
 
-const instance = axios.create({
+const privateApi = axios.create({
   baseURL: "http://localhost:4000",
   headers: { "Content-Type": "application/json" },
 });
 
-instance.interceptors.request.use(
+privateApi.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
+    console.log("auth bearer :::::::::::", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -18,7 +19,7 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
+privateApi.interceptors.response.use(
   (response) => {
     // You can modify the response here if needed
     return response;
@@ -33,4 +34,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export default privateApi;

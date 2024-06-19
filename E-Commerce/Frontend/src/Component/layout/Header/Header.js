@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Profiler } from "react";
 import "./Header.css";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { Search, Cart, Phone } from "react-bootstrap-icons";
+import { Search, Cart, Person } from "react-bootstrap-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../../../Assets/Logo.png";
 import { Link } from "react-router-dom";
@@ -51,10 +51,10 @@ const Header = () => {
             </Nav.Link>
             <Nav.Link
               as={Link}
-              to="/contact"
+              to="/login"
               className="d-flex align-items-center"
             >
-              <Phone color="rgba(35,35,35,0.8)" />
+              <Person color="rgba(35,35,35,0.8)" />
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

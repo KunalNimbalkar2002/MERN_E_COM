@@ -5,28 +5,32 @@ const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const { use } = require("../routes/userRoutes");
+const cloudinary = require("cloudinary");
+const { isAuthenticatedUser } = require("../middleware/auth");
 
 //Register A User
-const registerUser = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, password } = req.body; //destructuring
+const registerUser = catchAsyncErrors(async (req, res) => {
+  console.log("log to register user:::::::");
+  const { name, email, password } = req.body;
   const user = await User.create({
     name,
     email,
     password,
     avatar: {
-      public_id: "This is sample id",
-      url: "ProfilePicUrl",
+      public_id: "this is sample",
+      url: "sample",
     },
   });
-
-  sendToken(user, 201, res);
+  res.status(201).json({
+    success: true,
+  });
 });
 
 // Login User
 
 const loginUser = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
-
+  console.log("this is login backend UserController:::::::::::::::", req.body);
   //check if user has given email and password both
 
   if (!email || !password) {
@@ -40,20 +44,20 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   const isPasswordMatched = await user.comparePassword(password);
-  console.log("password:::::::::::::::", password);
-  console.log("user.password::::::::::::::", user.password);
-  console.log("isPasswordMatched::::::::::", isPasswordMatched);
 
   if (!isPasswordMatched) {
     return next(new Errorhandler("Invalid Email or Pasword", 401));
   }
-
-  sendToken(user, 200, res);
+  sendToken(user, 200, res, isAuthenticatedUser);
+  // res.status(200).json({
+  //   success: true,
+  // });
 });
 
 //Logout User
 
 const logoutUser = catchAsyncErrors(async (req, res, next) => {
+  console.log("step 3 controllers::::::::::::::");
   res.cookie("token", null, {
     expires: new Date(Date.now()),
     httpOnly: true,
@@ -178,16 +182,17 @@ const updateUserPassword = catchAsyncErrors(async (req, res, next) => {
 // Update User Profile
 
 const updateUserProfile = catchAsyncErrors(async (req, res, next) => {
+  console.log("req.body.id controller update profile:::::::::::::");
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
   };
   // Avatar will Update Later
-
-  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+  console.log("user.request", req.user._id);
+  const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
     new: true,
   });
-
+  console.log("user::::::::::::", user);
   res.status(200).json({
     message: "Profile Updated Sucessfully",
   });
