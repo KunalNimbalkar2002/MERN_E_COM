@@ -7,6 +7,7 @@ import Default from "../../../Assets/defaultUser.png";
 import { FaHouseUser } from "react-icons/fa6";
 import { MdExitToApp } from "react-icons/md";
 import { MdDashboard } from "react-icons/md";
+import { Cart } from "react-bootstrap-icons";
 import { FaClipboardList } from "react-icons/fa";
 import { logout } from "../../../Redux/Actions/userAction";
 import { useDispatch } from "react-redux";
@@ -21,10 +22,11 @@ const UserOptions = ({ user }) => {
   const options = [
     { icon: <FaClipboardList />, name: "Orders", func: orders },
     { icon: <FaHouseUser />, name: "Profile", func: account },
+    { icon: <Cart />, name: `Cart`, func: cart },
     { icon: <MdExitToApp />, name: "Logout", func: logoutUser },
   ];
 
-  if (UserOptions.role === "user") {
+  if (user && user.role === "user") {
     options.unshift({
       icon: <MdDashboard />,
       name: "Dashboard",
@@ -38,6 +40,10 @@ const UserOptions = ({ user }) => {
 
   function orders() {
     navigate("/orders");
+  }
+
+  function cart() {
+    navigate("/cart");
   }
   function account() {
     navigate("/account");

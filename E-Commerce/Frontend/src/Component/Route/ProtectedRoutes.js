@@ -3,17 +3,20 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const ProtectedRoutes = () => {
+  const token = localStorage.getItem("token");
+  const User = localStorage.getItem("user");
   const { isAuthenticatedUser, loading } = useSelector((state) => state.user);
   const location = useLocation();
 
-  if (loading) {
-    return <div>Loading...</div>; // or any loading spinner component
+  if (!User) {
+    return <div>Loading Protected Routes...</div>; // or any loading spinner component
   }
 
-  return isAuthenticatedUser ? (
+  return User ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    (console.log("---------rendering to protected routes--------"),
+    (<Navigate to="/login" state={{ from: location }} replace />))
   );
 };
 

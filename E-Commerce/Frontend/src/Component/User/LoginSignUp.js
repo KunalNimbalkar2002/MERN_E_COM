@@ -11,12 +11,13 @@ import { TiLockOpenOutline } from "react-icons/ti";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "../../Assets/defaultUser.png";
+import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login, Register } from "../../Redux/Actions/userAction";
 
 const LoginSignUp = ({ history }) => {
   const [data, setData] = useState(null);
-
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, isAuthenticatedUser, token } = useSelector(
@@ -46,6 +47,7 @@ const LoginSignUp = ({ history }) => {
     if (loginEmail && loginPassword) {
       dispatch(login(loginEmail, loginPassword));
       alert("Login Successfully!!");
+      navigate(redirect);
     } else {
       console.error("Email and password are required");
     }
@@ -93,12 +95,13 @@ const LoginSignUp = ({ history }) => {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
+  const redirect = location.search ? location.search.split("=")[1] : "/account";
 
   useEffect(() => {
     if (isAuthenticatedUser) {
-      navigate("/account");
+      navigate(redirect);
     }
-  }, [navigate, isAuthenticatedUser]);
+  }, [navigate, isAuthenticatedUser, redirect]);
 
   //This switch tabs is used to navigate from login to register or register to login using "className"
   const switchTabs = (e, tab) => {
@@ -122,8 +125,6 @@ const LoginSignUp = ({ history }) => {
     <Fragment>
       <div className="LoginSignUpContainer">
         <div className="LoginSignUpBox">
-          <p>kunal@gmail.com</p>
-          <p>password</p>
           <div>
             <div className="Login-SignUp-Toggle">
               <p onClick={(e) => switchTabs(e, "login")}>Login</p>

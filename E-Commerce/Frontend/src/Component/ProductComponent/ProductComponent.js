@@ -72,7 +72,7 @@ const ProductComponent = () => {
   return (
     <Fragment>
       {loading ? (
-        "Loading"
+        "Loading ProductComponent"
       ) : (
         <Fragment>
           <h2 className="productsHeading">Products</h2>

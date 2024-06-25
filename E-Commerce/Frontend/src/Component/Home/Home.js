@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <Fragment>
       {loading ? (
-        "Loading"
+        "Loading Home"
       ) : (
         <>
           <div className="banner">

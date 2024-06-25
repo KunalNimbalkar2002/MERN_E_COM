@@ -5,6 +5,10 @@ const errorMiddleware = require("./middleware/error");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const dotenv = require("dotenv");
+
+//config
+dotenv.config({ path: "./config/config.env" });
 
 app.use(express.json());
 app.use(
@@ -24,6 +28,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 const productRoute = require("./routes/productRoute");
 const userRoute = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const paymentRoute = require("./routes/paymentRoute");
 
 //Middleware for erors
 app.use(errorMiddleware);
@@ -32,5 +37,6 @@ app.use(cookieParser());
 app.use("/api/v1", productRoute);
 app.use("/api/v1", userRoute);
 app.use("/api/v1", orderRoutes);
+app.use("/api/v1", paymentRoute);
 
 module.exports = app;

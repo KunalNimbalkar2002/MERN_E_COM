@@ -73,11 +73,12 @@ const logoutUser = catchAsyncErrors(async (req, res, next) => {
 
 const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
+  console.log("req.body.email::::", req.body.email);
 
   if (!user) {
     return next(new Errorhandler("User Not Found", 404));
   }
-
+  console.log("isUser::::::::", user);
   //Get Reset Password Token
   const resetToken = user.getResetPasswordToken();
 
@@ -86,6 +87,7 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const resetPasswordUrl = `${req.protocol}://${req.get(
     "host"
   )}/api/v1/password/reset/${resetToken}`;
+  console.log("resetToken ::::::::::::::::::::::::::::::::::", resetToken);
 
   const message = `Your Password Reset Token Is :- \n\n ${resetPasswordUrl} \n\n If You Have Not Requested This Email Then Please Ignore It `;
 

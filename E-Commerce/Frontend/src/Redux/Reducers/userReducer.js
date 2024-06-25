@@ -1,9 +1,16 @@
 import { userActionTypes } from "../Constants/userConstants";
 
-// const initialState = {};
+const initialState = {
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null,
+  loading: false,
+  isAuthenticatedUser: true,
+  error: null,
+};
 
 export const userLoginReducer = (
-  state = { user: {} },
+  state = initialState,
   { type, payload, token }
 ) => {
   switch (type) {
@@ -94,6 +101,34 @@ export const profileReducer = (state = {}, { type, payload }) => {
       return {
         ...state,
         isUpdated: false,
+      };
+    default:
+      return state;
+  }
+};
+
+export const forgotPasswordReducer = (state = {}, { type, payload }) => {
+  switch (type) {
+    case userActionTypes.FORGOT_PASSWORD_REQUEST:
+      console.log("ActionTypes.FORGOT_PASSWORD_REQUEST:::::::::");
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case userActionTypes.FORGOT_PASSWORD_SUCCESS:
+      console.log("ActionTypes.FORGOT_PASSWORD_SUCCESS:::::::::");
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+      };
+    case userActionTypes.FORGOT_PASSWORD_FAIL:
+      console.log("ActionTypes.FORGOT_PASSWORD_FAIL:::::::::", state);
+      return {
+        ...state,
+        loading: false,
+        error: payload,
       };
     default:
       return state;

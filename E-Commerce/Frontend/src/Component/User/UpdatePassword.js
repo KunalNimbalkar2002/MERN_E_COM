@@ -63,11 +63,7 @@ const UpdatePassword = ({ history }) => {
       <div className="updatePasswordContainer">
         <div className="updatePasswordBox">
           <h2 className="updatePasswordHeading">Change Password</h2>
-          <form
-            className="updatePasswordForm"
-            encType="multipart/formdata"
-            onSubmit={updatePasswordSubmit}
-          >
+          <form className="updatePasswordForm" onSubmit={updatePasswordSubmit}>
             <div className="signUpPassword">
               <MdOutlineVpnKey />
               <input

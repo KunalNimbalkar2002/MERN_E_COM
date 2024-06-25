@@ -23,7 +23,8 @@ export const login = (email, password) => async (dispatch) => {
       payload: data.user,
       token: data.token,
     });
-    console.log("console data LOGIN_SUCCESS Actions:::::::::", data);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    console.log("console data LOGIN_SUCCESS Actions:::::::::", data.user);
   } catch (error) {
     dispatch({
       type: userActionTypes.LOGIN_FAIL,
@@ -145,8 +146,9 @@ export const loadUser = () => async (dispatch, getState) => {
     } else {
       // User state is not available in the store, make a request to the server to get the user data
       const token = localStorage.getItem("token");
+      const User = localStorage.getItem("user");
 
-      if (!token) {
+      if (!User) {
         // Token is not available, so the user is not authenticated
         return;
       }
@@ -237,6 +239,35 @@ export const updatePassword = (passwords) => async (dispatch) => {
     console.log("Fail updateProfile:::::::::::", error);
     dispatch({
       type: userActionTypes.UPDATE_PASSWORD_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//Forgot Password
+export const forgotPassword = (email) => async (dispatch) => {
+  try {
+    console.log("::::::::userActionTypes::::::", userActionTypes);
+    dispatch({
+      type: userActionTypes.FORGOT_PASSWORD_REQUEST,
+    });
+
+    const config = { headers: { "Content-Type": "application/json" } };
+
+    const { data } = await axios.post(
+      `http://localhost:4000/api/v1/password/forgot`,
+      email,
+      config
+    );
+    console.log("-------token:::::::::", data.token);
+    dispatch({
+      type: userActionTypes.FORGOT_PASSWORD_SUCCESS,
+      payload: data.message,
+    });
+    console.log("console data LOGIN_SUCCESS Actions:::::::::", data);
+  } catch (error) {
+    dispatch({
+      type: userActionTypes.FORGOT_PASSWORD_FAIL,
       payload: error.response.data.message,
     });
   }
